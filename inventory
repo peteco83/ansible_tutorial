@@ -1,2 +1,5 @@
+[web_servers]
 quirio@192.168.205.5
+
+[db_servers]
 quirio2@192.168.205.6

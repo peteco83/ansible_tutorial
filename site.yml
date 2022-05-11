@@ -1,0 +1,35 @@
+---
+
+- hosts: all
+  become: true
+  pre_tasks: #se hacen antes de cualquier otra task
+  
+  - name: install updates (Ubuntu)
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+# ejemplo de cuando se tienen servidores con diferentes sistemas operativos 
+# si hay varios os q usan apt (ej debian y ubuntu)
+ #   when: ansible_distribution in ["Ubuntu", "Debian"]
+
+- hosts: web_servers
+  become: true
+  tasks:
+
+  - name: install apache2 and php packages for ubuntu
+    apt:
+      name: 
+        - apache2
+        - libapache2-mod-php
+      state: latest
+    when: ansible_distribution == "Ubuntu"
+
+- hosts: db_servers
+  become: true
+  tasks:
+    - name: install mariadb package
+      apt:
+        name: mariadb-server
+        state: latest
+      when: ansible_distribution == "Ubuntu"
